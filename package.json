@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/priteshmehta/node-app#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "request": "^2.88.2"
   }
 }

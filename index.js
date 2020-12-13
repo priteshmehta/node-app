@@ -1,4 +1,5 @@
 const express = require('express')
+const request = require('request')
 const app = express()
 const port = 3000
 
@@ -13,7 +14,20 @@ app.get('/app1', (req, res) => {
 })
 
 app.get('/ping', (req, res) => {
-  res.send('Pong')
+	res.send('Pong')
+})
+
+app.get('/location', (req, res) => {
+	const url="https://freegeoip.app/json"
+	request({ url: url, json: true}, (error, response) => {
+		if(error){
+		    res.send("Unable to access weather service at this time.")
+		} else if (response.body.error) {
+		    res.send("unable to location data for given location")
+		} else {
+			res.send(response.body)
+		}
+	})
 })
 
 
