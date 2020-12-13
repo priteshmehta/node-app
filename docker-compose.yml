@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  reverse:
+    image: nginx
+    container_name: nginx
+    ports:
+      - 80:80
+    depends_on:
+      - app1
+      - app2
+    restart: "on-failure"
+  app1:
+      image: my-node-app
+      container_name: my-node-app
+      ports:
+        - 3000:3000
+      restart: "on-failure"
+  app2:
+      image: my-node-app
+      container_name: my-node-app2
+      ports:
+        - 3002:3000
+      restart: "on-failure"
