@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const request = require('request')
 const app = express()
@@ -17,7 +18,7 @@ app.get('/ping', (req, res) => {
 	res.send('Pong')
 })
 
-app.get('/location', (req, res) => {
+app.get('/location1', (req, res) => {
 	const url="https://freegeoip.app/json"
 	request({ url: url, json: true}, (error, response) => {
 		if(error){
@@ -28,6 +29,11 @@ app.get('/location', (req, res) => {
 			res.send(response.body)
 		}
 	})
+})
+
+
+app.get('/location', (req, res) => {
+	res.sendFile(path.join(__dirname,'location.html'))
 })
 
 
