@@ -1,3 +1,4 @@
+#!/bin/bash
 docker build -t my-node-app .
 cd nginx
 docker build -t nginx -f Dockerfile .

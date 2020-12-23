@@ -26,7 +26,7 @@ then
    helpFunction
 fi
 
-git pull origin master
+git pull origin main
 mkdir -p ~/mongodb-data
 echo $secret > env.dev
 docker-compose --env-file ./env.dev up -d
