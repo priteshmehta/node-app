@@ -13,6 +13,8 @@ services:
   app1:
       image: my-node-app
       container_name: my-node-app
+      environment:
+          - TOKEN_SECRET=${TOKEN_SECRET}
       ports:
         - 3000:3000
       depends_on:
@@ -21,6 +23,8 @@ services:
   app2:
       image: my-node-app
       container_name: my-node-app2
+      environment:
+          - TOKEN_SECRET=${TOKEN_SECRET}
       ports:
         - 3002:3000
       depends_on:
