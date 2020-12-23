@@ -27,6 +27,7 @@ then
 fi
 
 git pull origin main
+./build_images.sh
 mkdir -p ~/mongodb-data
 echo $secret > env.dev
 docker-compose --env-file ./env.dev up -d
