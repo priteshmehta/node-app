@@ -36,6 +36,14 @@ app.get('/location', (req, res) => {
 	res.sendFile(path.join(__dirname,'location.html'))
 })
 
+app.post('/login1', (req, res) => {
+	res.send("Login Success")
+})
+
+app.get('/login', (req, res) => {
+	res.sendFile(path.join(__dirname,'login.html'))
+})
+
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`Example app listening at http://0.0.0.0:${port}`)

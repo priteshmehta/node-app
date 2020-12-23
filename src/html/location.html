@@ -1,0 +1,44 @@
+<html>
+<head><title>User Location</title></head>
+<script>
+
+function fetchLocation() {
+	document.getElementById('data-locationDiv').innerHTML = "Loading..."
+	//const proxyurl = "https://cors-anywhere.herokuapp.com/"
+	const myHeaders = new Headers()
+	myHeaders.append('mode', 'no-core');
+	fetch('https://freegeoip.app/json', {
+	  method: 'GET',
+	  headers: {
+	  	'mode':'no-core',
+	  	'referrerPolicy': 'unsafe-url',
+	  	'accept': 'application/json'
+	  }
+	}).then(response => response.json())
+	  .then(data => { 
+	  	console.log(data)
+	  	document.getElementById('data-locationDiv').innerHTML =  JSON.stringify(data)
+	  })
+	  .catch((e) => {
+			console.log(e)
+		})
+	// jsonp("https://freegeoip.app/json", (error, data) => {
+	// 	if (error) {
+	//         document.getElementById('data-locationDiv').innerHTML = "Failed"
+	//         console.log(error)
+	//     } else {
+	//         document.getElementById('data-locationDiv').innerHTML = data
+	//     }
+	// })
+}
+</script>
+
+<body>
+	<h1>Your Location</h1>
+	<div id="data-locationDiv"></div>
+	<iframe name="iframe" src="https://freegeoip.app/json" style="width: 500px; height: 150px; border: none;"></iframe>
+</body>
+<!-- <script type="text/javascript" src="https://unpkg.com/jsonp@0.2.1/index.js" crossorigin></script> -->
+
+</html>
+

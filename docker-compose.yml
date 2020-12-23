@@ -15,10 +15,21 @@ services:
       container_name: my-node-app
       ports:
         - 3000:3000
+      depends_on:
+        - db
       restart: "on-failure"
   app2:
       image: my-node-app
       container_name: my-node-app2
       ports:
         - 3002:3000
+      depends_on:
+        - db
       restart: "on-failure"
+  db:
+    image: 'mongo'
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ~/mongodb-data:/data/db
