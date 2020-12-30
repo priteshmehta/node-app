@@ -10,28 +10,45 @@
 // - PM2 as process manager to spawn and managet each core by express process
 // - load balancer (ELB or Nginx)
 
+// https://sequelize.org/ - ORM for SQL server - 1
+// https://github.com/coresmart/persistencejs ORM for SQL server - 1
+
 const express = require('express')
 const path = require('path')
+const hbs = require('hbs')
+const swaggerUi = require('swagger-ui-express');
+//const swaggerDocument = require('./swagger.json');
 const userRouter = require('./routers/userRouter')
 const taskRouter = require('./routers/taskRouter')
-const{ healthRouter, appStats } = require('./routers/healthRouter')
+const slackRouter = require('./routers/slackRouter')
+const{ healthRouter, appStats, getAppStats} = require('./routers/healthRouter')
+const logger = require('./utils/logger')
+const {sendStats} = require('./email/account')
 
 //middleware
 const auth = require('./middlewares/auth')
 const rateLimit = require('./middlewares/rateLimiter')
+const redisClient = require('./cache/redisClient')
 
 const app = express()
 const port = process.env.PORT || 3000
 const isMaitenanceMode = process.env.Maitenance || 0
 app.use(express.json())
-
 app.use(rateLimit)
+app.set('view engine', 'hbs')
+app.use(express.static(path.join(__dirname, 'html')))
+
 //middleware
 app.use((req, res, next) => {
-    console.log(`Requst method:${req.method}, path: ${req.path}, Headers:${JSON.stringify(req.headers)}`)
+    const { ip, protocol, method, url, headers } = req;
+    const userAgent = headers['user-agent']
+    logger.info({ip, protocol, method, url, userAgent})
     appStats.requestCounter+=1
+    redisClient.incrValue('appStats:requestCounter')
+    redisClient.incrValue('appStats:'+req.method + req.path)    
     const allowedVerbs = ['GET', 'POST', 'PATCH', 'DELETE']
     if(!allowedVerbs.includes(req.method)) {
+        logger.info(`Not Supported HTTP verb. Webservice supports: ${allowedVerbs.toString()}`)
         res.send("Not Supported HTTP verb. Webservice supports: "+allowedVerbs.toString())
     }
     next()
@@ -45,26 +62,44 @@ app.use((req, res, next) => {
     next()
 })
 
+//docs
+//app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+//https://nodesource.com/blog/nine-security-tips-to-keep-express-from-getting-pwned
+const helmet = require('helmet');
+app.use(helmet());
+
 app.use(userRouter)
 app.use(taskRouter)
 app.use(healthRouter)
+app.use(slackRouter)
 
-app.get('/', (req, res) => {
-  res.send('This is app1')
-})
+//send HTML files
+// app.get('/location', (req, res) => {
+//     logger.info("serving location.html")
+// 	res.render('location')
+// })
 
-app.get('/location', (req, res) => {
-    res.sendFile(path.join(__dirname,'html/location.html'))
+app.get('/file', (req, res) => {
+    logger.info("serving fileupload.html")
+	res.sendFile(path.join(__dirname,'html/fileupload.html'))
 })
 
 app.listen(port, ()=> {
-    console.log("express app is running on port", port)
+    logger.info(`express app is running on port: ${port}`)
 })
 
-// Remove the error.log file every twenty-first day of the month.
-// const cron = require('node-cron')
-// cron.schedule('* * * * *', function() {
-//     console.log('---------------------');
-//     console.log('Running Cron Job every minuts');
-//   });
+// runs 8am everyday and send app stats.
+const cron = require('node-cron')
+cron.schedule('0 8 * * *', function() {
+    try {
+        logger.info('--------Cron scheduler Start---------------------')
+        // Todo send email
+        //getAppStats(appStats)
+        sendStats("Daily Stats :: TBD")
+        logger.info('--------Cron scheduler Ends---------------------')
+    } catch(e) {
+        logger.error(e.message)
+    }
+});
   

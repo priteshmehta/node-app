@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const auth = async(req, res, next) => {
     try{
-        console.log("Auth Logic")
+        //logger.info("Auth Logic")
         const secret = process.env.TOKEN_SECRET
         const token = req.header('Authorization').replace('Bearer ', '')
         const decodedToken = jwt.verify(token, secret)

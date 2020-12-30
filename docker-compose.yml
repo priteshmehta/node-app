@@ -19,6 +19,7 @@ services:
         - 3000:3000
       depends_on:
         - db
+        -redis
       restart: "on-failure"
   app2:
       image: my-node-app
@@ -29,7 +30,18 @@ services:
         - 3002:3000
       depends_on:
         - db
+        -redis
       restart: "on-failure"
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    hostname: redis
+    ports:
+        - 6379:6379
+    volumes:
+      - ~/redis-data:/data
+    restart: "on-failure"
+
   db:
     image: 'mongo'
     container_name: mongo
