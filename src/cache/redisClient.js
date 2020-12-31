@@ -3,7 +3,8 @@ const redis = require('redis')
 
 class redisClient {
     constructor() {
-        this.client = redis.createClient();
+        console.log("REDIS:", process.env.REDIS_SERVER)
+        this.client = redis.createClient({host: process.env.REDIS_SERVER, port:6379})
         this.client.on('error', (e) => {
             console.log("Error: ", e)
         })

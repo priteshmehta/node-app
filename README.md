@@ -12,6 +12,9 @@ SENDGRID_API_KEY=
 ### spin up application
 run ./bootstrap.sh
 
+### To Make sure all services are up and running
+docker ps
+
 ### deploy new code
 run ./deploy_app.sh
 

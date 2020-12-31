@@ -17,6 +17,7 @@ services:
           - TOKEN_SECRET=${TOKEN_SECRET}
           - PORT=${TOKEN_SECRET}
           - DB_SERVER=${DB_SERVER}
+          - REDIS_SERVER=${REDIS_SERVER}
           - DB_PORT=${DB_PORT}
           - SENDGRID_API_KEY=${SENDGRID_API_KEY}
       ports:
@@ -24,6 +25,8 @@ services:
       depends_on:
         - db
         - redis
+      volumes:
+        - ./logs1:/usr/src/app/logs
       restart: "on-failure"
   app2:
       image: my-node-app
@@ -32,6 +35,7 @@ services:
           - TOKEN_SECRET=${TOKEN_SECRET}
           - PORT=${TOKEN_SECRET}
           - DB_SERVER=${DB_SERVER}
+          - REDIS_SERVER=${REDIS_SERVER}
           - DB_PORT=${DB_PORT}
           - SENDGRID_API_KEY=${SENDGRID_API_KEY}
       ports:
@@ -39,6 +43,8 @@ services:
       depends_on:
         - db
         - redis
+      volumes:
+        - ./logs2:/usr/src/app/logs
       restart: "on-failure"
   redis:
     image: "redis:alpine"
