@@ -23,7 +23,7 @@ services:
         - 3000:3000
       depends_on:
         - db
-        -redis
+        - redis
       restart: "on-failure"
   app2:
       image: my-node-app
@@ -38,7 +38,7 @@ services:
         - 3002:3000
       depends_on:
         - db
-        -redis
+        - redis
       restart: "on-failure"
   redis:
     image: "redis:alpine"
