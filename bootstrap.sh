@@ -20,13 +20,12 @@ do
 done
 
 # Print helpFunction in case parameters are empty
-if [ -z "$secret" ] 
-then
-   echo "the parameters is empty";
-   helpFunction
-fi
+# if [ -z "$secret" ] 
+# then
+#    echo "the parameters is empty";
+#    helpFunction
+# fi
 
-git pull origin main
 ./build_images.sh
 mkdir -p ~/mongodb-data
 mkdir -p ~/redis-data
