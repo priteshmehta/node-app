@@ -1,30 +1,30 @@
 //CRUD operation
-const mongodb = require('mongodb')
-const MongoClient = mongodb.MongoClient
-const ObjectID = mongodb.ObjectID
+// const mongodb = require('mongodb')
+// const MongoClient = mongodb.MongoClient
+// const ObjectID = mongodb.ObjectID
 
-const connnectionURL = 'mongodb://'+process.env.DB_SERVER+':'+process.env.DB_PORT
-const database = 'task-manager'
-const id = new ObjectID()
-console.log("generatedId:" + id)
+// const connnectionURL = 'mongodb://'+process.env.DB_SERVER+':'+process.env.DB_PORT
+// const database = 'task-manager'
+// const id = new ObjectID()
+// console.log("generatedId:" + id)
 
-MongoClient.connect(connnectionURL, { useNewUrlParser: true}, (error, client) => {
-    if(error){
-        console.log('unable to connection to database')
-        return
-    } 
-    console.log('connected!')
-    const db = client.db(database)
-    // Deleting document
-    db.collection('tasks').deleteMany({
-        completed: true
-    }).then((result) => {
-        console.log(result)
-    }).catch((error)=> {
-        console.log(error)
-    })
+// MongoClient.connect(connnectionURL, { useNewUrlParser: true}, (error, client) => {
+//     if(error){
+//         console.log('unable to connection to database')
+//         return
+//     } 
+//     console.log('connected!')
+//     const db = client.db(database)
+//     // Deleting document
+//     db.collection('tasks').deleteMany({
+//         completed: true
+//     }).then((result) => {
+//         console.log(result)
+//     }).catch((error)=> {
+//         console.log(error)
+//     })
 
-})
+// })
 
 //############## Sample code for Read and Insert data ###################
 
