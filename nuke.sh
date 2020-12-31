@@ -3,4 +3,4 @@
 ##########################################################################
 # this script would nuke entire environment
 ##########################################################################
-docker-compose down
+docker-compose --env-file ./prod.env down

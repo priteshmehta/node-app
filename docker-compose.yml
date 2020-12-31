@@ -15,7 +15,7 @@ services:
       container_name: my-node-app
       environment:
           - TOKEN_SECRET=${TOKEN_SECRET}
-          - PORT=${TOKEN_SECRET}
+          - PORT=${PORT}
           - DB_SERVER=${DB_SERVER}
           - REDIS_SERVER=${REDIS_SERVER}
           - DB_PORT=${DB_PORT}
@@ -33,7 +33,7 @@ services:
       container_name: my-node-app2
       environment:
           - TOKEN_SECRET=${TOKEN_SECRET}
-          - PORT=${TOKEN_SECRET}
+          - PORT=${PORT}
           - DB_SERVER=${DB_SERVER}
           - REDIS_SERVER=${REDIS_SERVER}
           - DB_PORT=${DB_PORT}
