@@ -30,5 +30,4 @@ git pull origin main
 ./build_images.sh
 mkdir -p ~/mongodb-data
 mkdir -p ~/redis-data
-echo TOKEN_SECRET=$secret > prod.env
-docker-compose up -d
+docker-compose --env-file ./prod.env up -d

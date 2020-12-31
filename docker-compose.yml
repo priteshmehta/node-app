@@ -15,6 +15,10 @@ services:
       container_name: my-node-app
       environment:
           - TOKEN_SECRET=${TOKEN_SECRET}
+          - PORT=${TOKEN_SECRET}
+          - DB_SERVER=${DB_SERVER}
+          - DB_PORT=${DB_PORT}
+          - SENDGRID_API_KEY=${SENDGRID_API_KEY}
       ports:
         - 3000:3000
       depends_on:
@@ -26,6 +30,10 @@ services:
       container_name: my-node-app2
       environment:
           - TOKEN_SECRET=${TOKEN_SECRET}
+          - PORT=${TOKEN_SECRET}
+          - DB_SERVER=${DB_SERVER}
+          - DB_PORT=${DB_PORT}
+          - SENDGRID_API_KEY=${SENDGRID_API_KEY}
       ports:
         - 3002:3000
       depends_on:
