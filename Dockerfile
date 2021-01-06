@@ -2,6 +2,10 @@ FROM node:12
 
 # Create app directory
 WORKDIR /usr/src/app
+RUN chmod 777 /usr/src/app
+
+RUN groupadd -r priteshGrp && useradd -r -g priteshGrp pritesh
+USER pritesh
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
