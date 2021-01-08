@@ -2,10 +2,9 @@ FROM node:12
 
 # Create app directory
 WORKDIR /usr/src/app
-RUN chmod 777 /usr/src/app
 
-RUN groupadd -r priteshGrp && useradd -r -g priteshGrp pritesh
-USER pritesh
+# uncomment if node user doesn't exist
+# RUN groupadd -r node && useradd -r -g node node
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -18,6 +17,9 @@ RUN npm install
 
 # Bundle app source
 COPY . .
+
+RUN chown -R node:node /usr/src/app
+USER node
 
 EXPOSE 3000
 CMD [ "node", "src/index.js" ]
